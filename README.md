@@ -2,6 +2,8 @@
  
 README.txt
 
+" NOTE : Your System Should Have nlohmann JSON installed in you system
+
 " This project contains two main directories:
 " 1. client: This directory contains the source code and implementation files.
 " 2. clientApplication: This directory acts as the run environment for executing the server-client setup.
