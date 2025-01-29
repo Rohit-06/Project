@@ -1,16 +1,19 @@
 name=$(whoami)
-S1=$(ps -u "$name" | grep runClient)
+S1=$(ps -u "$name" | grep runClient | grep -v grep)
 S2=""
+echo "printing"
+echo "$S1"
 
 date_time=$(date +"%Y-%m-%d_%H-%M-%S")
 echo $date_time
 mkdir -p logs
 
-if [ "$S1" == "$S2" ];
+
+if [ -z "$S1" ];
 then
   echo "Client Server STARTED..  "
 
-	if [ "$(find . -maxdepth 1 -name "*.json" -print -quit)" ]; 
+  if [ "$(find . -maxdepth 1 -name "*.json" -print -quit)" ]; 
   then
     mkdir -p archiveFileOutputs
     
@@ -31,18 +34,17 @@ else
       
     if [ "$(find . -maxdepth 1 -name "*.json" -print -quit)" ]; 
     then
-    	mkdir -p archiveFileOutputs
+        mkdir -p archiveFileOutputs
     	
-    file=$(find . -maxdepth 1 -name "*.json" -print -quit)
-    filename=$(basename "$json_file")
+        file=$(find . -maxdepth 1 -name "*.json" -print -quit)
+        filename=$(basename "$file")
 
-    mv "$file" "archiveFileOutputs/${filename%.*}_$date_time.json"
+        mv "$file" "archiveFileOutputs/${filename%.*}_$date_time.json"
                  
-		fi
-
+	fi
 
     ./runClient | tee -a "logs/clientLog_${date_time}.txt"
-     else
+ else
     echo "Old instance is running..."
   fi
 fi
